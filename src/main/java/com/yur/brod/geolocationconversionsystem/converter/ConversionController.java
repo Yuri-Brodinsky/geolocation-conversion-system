@@ -18,8 +18,7 @@ public class ConversionController {
     }
     @PostMapping("/ll")
     public String getAddress(@RequestBody double [] coordinates){
-
-        return service.convertCoordinates(coordinates);
+        return service.convertCoordinates(coordinates[0],coordinates[1]);
     }
     @PostMapping("/adr")
     public String getCoordinates(@RequestBody String address){

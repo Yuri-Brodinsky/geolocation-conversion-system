@@ -2,5 +2,5 @@ package com.yur.brod.geolocationconversionsystem.converter;
 
 public interface ConversionService {
     String convertAddress(String s);
-    String convertCoordinates(double [] coordinates);
+    String convertCoordinates(double latitude,double longitude);
 }

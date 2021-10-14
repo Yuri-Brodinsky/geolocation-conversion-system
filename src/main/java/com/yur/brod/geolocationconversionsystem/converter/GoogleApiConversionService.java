@@ -21,19 +21,11 @@ public class GoogleApiConversionService implements ConversionService {
     }
 
     @Override
-    public String convertCoordinates(final double[] coordinates) {
-         final String [] coor = new String[2];
-         if((coordinates[0]>90||coordinates[0]<-90)||(coordinates[0]>90||coordinates[0]<-90))
-         coor[0] = new String(String.valueOf(coordinates[0]));
-         coor[1] = new String(String.valueOf(coordinates[1]));
-         final String url = urlProvider.getUrl(coor);
-         return restTemplate.getForObject(url,String.class);
-    }
     public String convertCoordinates(final double latitude,final double longitude) {
-       String [] coor = new String[2];
-            coor[0] = new String(String.valueOf(latitude));
-        coor[1] = new String(String.valueOf(longitude));
-        final String url = urlProvider.getUrl(coor);
+        String [] coor = new String[2];
+        final String lat = String.valueOf(latitude);
+        final String lng = String.valueOf(longitude);
+        final String url = urlProvider.getUrl(lat,lng);
         return restTemplate.getForObject(url,String.class);
     }
 }
