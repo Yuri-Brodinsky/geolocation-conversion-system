@@ -38,11 +38,11 @@ public class GoogleApiUrlProvider implements UrlProvider{
                 "sensor",sensor);
         return map;
     }
-    private Map<String,String> getParamMap(final String [] geolocation){
-        final String coordinates = new StringBuffer()
-                .append(geolocation[0])
+    //final double latitude,final double longitude
+    private Map<String,String> getParamMap(final String latitude,final String longitude){
+        final String coordinates = new StringBuffer(latitude)
                 .append(", ")
-                .append(geolocation[1]).toString();
+                .append(longitude).toString();
         final Map<String,String> map = Map.of(
                 "sensor",sensor,
                 "language",language,
@@ -55,8 +55,8 @@ public class GoogleApiUrlProvider implements UrlProvider{
         final StringBuffer finalUrl=new StringBuffer(baseUrl).append(parameters);
         return finalUrl.toString();
     }
-    public String getUrl(final String [] coordinates){
-        final String parameters = mapConverter.convert(getParamMap(coordinates));
+    public String getUrl(final String latitude,final String longitude){
+        final String parameters = mapConverter.convert(getParamMap(latitude,longitude));
         final StringBuffer finalUrl=new StringBuffer(baseUrl).append(parameters);
         return finalUrl.toString();
     }
