@@ -12,7 +12,7 @@ import java.util.Map;
 public class MapConverterImpl implements MapConverter{
 
     @Override
-    public String convert(Map<String, String> parameters) {
+    public String convert(final Map<String, String> parameters) {
         final String param = Joiner.on("&").join(Iterables.transform(parameters.entrySet(), MapConverterImpl::conv));
         return param;
     }

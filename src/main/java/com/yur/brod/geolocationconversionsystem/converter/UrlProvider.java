@@ -4,4 +4,5 @@ import java.util.Map;
 
 public interface UrlProvider {
     String getUrl(String address);
+    String getUrl(String [] coordinates);
 }
