@@ -22,7 +22,6 @@ public class GoogleApiConversionService implements ConversionService {
 
     @Override
     public String convertCoordinates(final double latitude,final double longitude) {
-        String [] coor = new String[2];
         final String lat = String.valueOf(latitude);
         final String lng = String.valueOf(longitude);
         final String url = urlProvider.getUrl(lat,lng);
