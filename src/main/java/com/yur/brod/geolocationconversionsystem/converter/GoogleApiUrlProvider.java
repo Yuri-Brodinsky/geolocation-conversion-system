@@ -16,7 +16,7 @@ public class GoogleApiUrlProvider implements UrlProvider{
     private final String baseUrl;
     private final String language;
     private final String sensor;
-    
+
     public GoogleApiUrlProvider(@Value("${google-api.url}")String url,
                                 @Value("${google-api.format}")String format,
                                 @Value("${google-api.format}")String sensor,
@@ -28,38 +28,34 @@ public class GoogleApiUrlProvider implements UrlProvider{
         baseUrl = url + format + "?";
     }
 
-    public static String convertEntry(final Map.Entry<String,String> entry){
-        return entry.getKey() + "=" +
-                URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8);
-    }
 
-    public String getCoordinates(final String latitude,final String longitude){
-        return latitude + ", " + longitude;
-    }
-    private Map<String,String> getParamMap(final String address){
+    private Map<String,String> getParamMap( String address){
+        String encodedAddress = URLEncoder.encode(address,StandardCharsets.UTF_8);
         return Map.of(
-                "address",address,
+                "address",encodedAddress,
                 "sensor",sensor,
                 "key",apiKey);
     }
-    private Map<String,String> getParamMap(final String latitude,final String longitude){
+    private Map<String,String> getParamMap( double latitude, double longitude){
+        String lat = String.valueOf(latitude);
+        String lng = String.valueOf(longitude);
         return Map.of(
                 "sensor",sensor,
                 "language",language,
-                "latlng",getCoordinates(latitude,longitude),
+                "latlng",lat+","+lng ,
                 "key",apiKey);
     }
     public String getParameters(final Map<String, String> parameters) {
         return Joiner.on("&").join(parameters
                 .entrySet().stream()
-                .map(GoogleApiUrlProvider::convertEntry)
+                .map(e->e.getKey()+"="+e.getValue())
                 .collect(Collectors.toList()));
     }
 
-    public String getUrl(final String address){
+    public String getUrl(String address){
         return baseUrl + getParameters(getParamMap(address));
     }
-    public String getUrl(final String latitude,final String longitude){
+    public String getUrl( double latitude, double longitude){
         return baseUrl + getParameters(getParamMap(latitude,longitude));
     }
 

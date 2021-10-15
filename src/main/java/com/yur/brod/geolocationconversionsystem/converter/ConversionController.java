@@ -17,7 +17,8 @@ public class ConversionController {
         this.provider = provider;
     }
     @PostMapping("/ll")
-    public String getAddress(@RequestBody double [] coordinates){
+    public String  getAddress(@RequestBody double [] coordinates){
+
         return service.convertCoordinates(coordinates[0],coordinates[1]);
     }
     @PostMapping("/adr")
