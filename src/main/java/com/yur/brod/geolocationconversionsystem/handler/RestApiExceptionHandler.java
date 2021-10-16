@@ -23,7 +23,16 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
                 request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @Override
+    @ExceptionHandler(ValidationException.class)
+    public final ResponseEntity<Object> handleValidationException(Exception e, WebRequest request){
+        RestApiResponse response =  new RestApiResponse(
+                LocalTime.now(),
+                e.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    /*@Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e
             ,HttpHeaders headers,HttpStatus status,WebRequest request){
         RestApiResponse response =  new RestApiResponse(
@@ -31,6 +40,6 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
                 "Validation failed",
                 request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+    }*/
 
 }

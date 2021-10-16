@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/converter")
+@RequestMapping("api/v1/conversion-system")
 public class ConversionController {
 
     private final ConversionService service;
@@ -16,13 +16,13 @@ public class ConversionController {
         this.service = service;
         this.provider = provider;
     }
-    @PostMapping("/ll")
+    @PostMapping("/address")
     public String  getAddress(@RequestBody double [] coordinates){
 
         return service.convertCoordinates(coordinates[0],coordinates[1]);
     }
-    @PostMapping("/adr")
-    public String getCoordinates(@RequestBody String address){
+    @PostMapping("/latlng")
+    public Double [] getCoordinates(@RequestBody String address){
 
         return service.convertAddress(address);
     }

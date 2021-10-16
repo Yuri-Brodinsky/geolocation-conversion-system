@@ -2,6 +2,7 @@ package com.yur.brod.geolocationconversionsystem.converter;
 
 
 import com.google.common.base.Joiner;
+import com.yur.brod.geolocationconversionsystem.handler.ValidationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,11 @@ public class GoogleApiUrlProvider implements UrlProvider{
     private final String baseUrl;
     private final String language;
     private final String sensor;
+    private final int LAT_MIN = -90;
+    private final int LAT_MAX = 90;
+    private final int LNG_MIN = -180;
+    private final int LNG_MAX = 180;
+    private final int LENGTH_MAX = 2450;
 
     public GoogleApiUrlProvider(@Value("${google-api.url}")String url,
                                 @Value("${google-api.format}")String format,
@@ -53,9 +59,19 @@ public class GoogleApiUrlProvider implements UrlProvider{
     }
 
     public String getUrl(String address){
-        return baseUrl + getParameters(getParamMap(address));
+        String url = baseUrl + getParameters(getParamMap(address));
+        if(url.length()>LENGTH_MAX) {
+            throw new ValidationException("URL must be less then " + LENGTH_MAX+" characters");
+        }
+        return url;
     }
     public String getUrl( double latitude, double longitude){
+        if(latitude<LAT_MIN||latitude>LAT_MAX) {
+            throw new ValidationException("latitude must be in interval " + LAT_MIN + ".." + LAT_MAX);
+        }
+        if(longitude<LNG_MIN||longitude>LNG_MAX) {
+            throw new ValidationException("longitude must be in interval " + LNG_MIN + ".." + LNG_MAX);
+        }
         return baseUrl + getParameters(getParamMap(latitude,longitude));
     }
 
