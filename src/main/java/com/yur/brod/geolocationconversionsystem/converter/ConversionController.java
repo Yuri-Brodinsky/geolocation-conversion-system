@@ -10,20 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConversionController {
 
     private final ConversionService service;
-    private final GoogleApiUrlProvider provider;
 
-    public ConversionController(ConversionService service,GoogleApiUrlProvider provider) {
+    public ConversionController(ConversionService service) {
         this.service = service;
-        this.provider = provider;
     }
     @PostMapping("/address")
     public String  getAddress(@RequestBody double [] coordinates){
-
         return service.convertCoordinates(coordinates[0],coordinates[1]);
     }
     @PostMapping("/latlng")
     public Double [] getCoordinates(@RequestBody String address){
-
         return service.convertAddress(address);
     }
 }
