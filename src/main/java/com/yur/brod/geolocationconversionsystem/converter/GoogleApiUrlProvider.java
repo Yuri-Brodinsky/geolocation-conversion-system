@@ -21,7 +21,7 @@ public class GoogleApiUrlProvider implements UrlProvider{
     private final int LAT_MAX = 90;
     private final int LNG_MIN = -180;
     private final int LNG_MAX = 180;
-    private final int LENGTH_MAX = 2450;
+    private final int LENGTH_MAX = 8192;
 
     public GoogleApiUrlProvider(@Value("${google-api.url}")String url,
                                 @Value("${google-api.format}")String format,
@@ -38,7 +38,7 @@ public class GoogleApiUrlProvider implements UrlProvider{
     private Map<String,String> getParamMap( String address){
         String encodedAddress = URLEncoder.encode(address,StandardCharsets.UTF_8);
         return Map.of(
-                "address",encodedAddress,
+                "address",address,
                 "sensor",sensor,
                 "key",apiKey);
     }
@@ -59,6 +59,9 @@ public class GoogleApiUrlProvider implements UrlProvider{
     }
 
     public String getUrl(String address){
+        if(address.length()==0) {
+            throw new ValidationException("Empty address");
+        }
         String url = baseUrl + getParameters(getParamMap(address));
         if(url.length()>LENGTH_MAX) {
             throw new ValidationException("URL must be less then " + LENGTH_MAX+" characters");

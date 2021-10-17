@@ -16,10 +16,10 @@ public class ConversionController {
     }
     @PostMapping("/address")
     public String  getAddress(@RequestBody double [] coordinates){
-        return service.convertCoordinates(coordinates[0],coordinates[1]);
+        return service.convertCoordinates(coordinates[1],coordinates[0]);
     }
     @PostMapping("/latlng")
-    public Double [] getCoordinates(@RequestBody String address){
+    public double [] getCoordinates(@RequestBody String address){
         return service.convertAddress(address);
     }
 }

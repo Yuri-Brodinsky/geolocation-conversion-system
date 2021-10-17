@@ -1,12 +1,10 @@
 package com.yur.brod.geolocationconversionsystem.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +43,22 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
                 request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(AddressNotFoundException.class)
+    public final ResponseEntity<Object> handleAddressNotFoundException(Exception ex, WebRequest request){
+        RestApiResponse response =  new RestApiResponse(
+                LocalTime.now(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(JsonProcessingException.class)
+    public final ResponseEntity<Object> handleJsonProcessingException(Exception ex, WebRequest request){
+        RestApiResponse response =  new RestApiResponse(
+                LocalTime.now(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
